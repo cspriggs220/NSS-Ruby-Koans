@@ -14,6 +14,9 @@ class AboutConstants < EdgeCase::Koan
     assert_equal "top level", ::C
   end
 
+  # Regarding the previous comment I was expecting this to be "top 
+  # level" but that's a global constant, here we are referencing the 
+  # C constant within the class. I missed that distinction at first.
   def test_nested_constants_are_referenced_by_their_complete_path
     assert_equal "nested", AboutConstants::C
     assert_equal "nested", ::AboutConstants::C
@@ -35,7 +38,7 @@ class AboutConstants < EdgeCase::Koan
   end
 
   def test_nested_classes_inherit_constants_from_enclosing_classes
-    assert_equal __, Animal::NestedAnimal.new.legs_in_nested_animal
+    assert_equal 4, Animal::NestedAnimal.new.legs_in_nested_animal
   end
 
   # ------------------------------------------------------------------
@@ -47,7 +50,7 @@ class AboutConstants < EdgeCase::Koan
   end
 
   def test_subclasses_inherit_constants_from_parent_classes
-    assert_equal __, Reptile.new.legs_in_reptile
+    assert_equal 4, Reptile.new.legs_in_reptile
   end
 
   # ------------------------------------------------------------------
@@ -63,11 +66,13 @@ class AboutConstants < EdgeCase::Koan
   end
 
   def test_who_wins_with_both_nested_and_inherited_constants
-    assert_equal __, MyAnimals::Bird.new.legs_in_bird
+    assert_equal 2, MyAnimals::Bird.new.legs_in_bird
   end
 
   # QUESTION: Which has precedence: The constant in the lexical scope,
   # or the constant from the inheritance hierarchy?
+  
+  # the constant in lexical scope
 
   # ------------------------------------------------------------------
 
@@ -78,10 +83,12 @@ class AboutConstants < EdgeCase::Koan
   end
 
   def test_who_wins_with_explicit_scoping_on_class_definition
-    assert_equal __, MyAnimals::Oyster.new.legs_in_oyster
+    assert_equal 4, MyAnimals::Oyster.new.legs_in_oyster
   end
 
   # QUESTION: Now which has precedence: The constant in the lexical
   # scope, or the constant from the inheritance hierarchy?  Why is it
   # different than the previous answer?
+
+  # The constant from the inheritance hierarchy
 end
